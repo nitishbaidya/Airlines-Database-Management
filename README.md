@@ -5,6 +5,8 @@ Queries based on find():
 1.	A list of pilot names sorted by the earliest “fit to fly” test date
 2.	A list of all stewards working for the airline
 3.	A list of planes under “repair” status
+
+
 Queries based on aggregate():
 4.	Next available pilot in London Heathrow Airport
 5.	Latest location from which a flight landed in London
