@@ -1,0 +1,172 @@
+=======Planes==========
+
+
+*****Schema Vaidation*****
+
+db.createCollection("planes", {
+   validator: {
+      $jsonSchema: {
+         bsonType: "object",
+         required: [ "plane_id","brand","model","range","capacity","lengthOfService_months","remaininglengthOfService_months"],
+         properties: {
+         plane_id: {
+            bsonType:"string",
+            description: "Plane id cannot be empty, must be a string, and unique"
+         },
+         brand: {
+            bsonType:"string",
+            description: "Brand name cannot be empty and must be a string"
+         },
+         model: {
+            bsonType:"string",
+            description: "Model cannot be empty and must be a string"
+         },
+         range: {
+            bsonType:"int",
+            minimum: 1,
+            description: "Range cannot be empty and must be an integer"
+         },
+         capacity: {
+            bsonType:"object",
+            required: ["business", "economy"],
+            properties: {
+                   business: {
+                      bsonType:"int",
+                      minimum: 0,
+                      description: "Business cannot be empty and must be an integer" 
+                   },
+                   economy: {
+                      bsonType:"int",
+                      minimum: 0,
+                      description: "Economy cannot be empty and must be an integer" 
+                   },
+               },
+         },
+         lengthOfService_months: {
+            bsonType:"int",
+            description: "Length of service cannot be empty and must be an integer"
+         },
+         remaininglengthOfService_months: {
+            bsonType:"int",
+            description: "Remaining length of service cannot be empty and must be an integer"
+         },
+         status: {
+            bsonType:"string",
+            description: "Status cannot be empty and must be a string"
+        }
+     }
+   }
+}
+})
+
+
+
+
+
+
+*****Unique indexes*****
+
+db.planes.createIndex( { "plane_id": 1 }, { unique: true } )
+
+
+
+
+*****Documents*****
+
+db.planes.insertMany ([
+{
+   plane_id : 'a3801',
+   brand : 'airbus',
+   model : 'A380',
+   range : 10000,
+   capacity : {business: 45, economy: 500},
+   lengthOfService_months : 258,
+   remaininglengthOfService_months : 102,
+   status : 'repair'
+},
+{
+   plane_id : 'a3802',
+   brand : 'airbus',
+   model : 'A380',
+   range : 10000,
+   capacity : {business: 45, economy: 500},
+   lengthOfService_months : 100,
+   remaininglengthOfService_months : 260,
+   status : 'working'
+},
+{
+   plane_id : 'b737M71',
+   brand : 'Boeing',
+   model : '737 MAX 7',
+   range : 7130,
+   capacity : {business: 15, economy: 138},
+   lengthOfService_months : 110,
+   remaininglengthOfService_months : 250,
+   status : 'working'
+},
+{
+   plane_id : 'b737M72',
+   brand : 'Boeing',
+   model : '737 MAX 7',
+   range : 7130,
+   capacity : {business: 15, economy: 138},
+   lengthOfService_months : 290,
+   remaininglengthOfService_months : 70,
+   status : 'working'
+},
+{
+   plane_id : 'b737M73',
+   brand : 'Boeing',
+   model : '737 MAX 7',
+   range : 7130,
+   capacity : {business: 15, economy: 138},
+   lengthOfService_months : 300,
+   remaininglengthOfService_months : 60,
+   status : 'upgrading'
+},
+{
+   plane_id : 'a3301',
+   brand : 'Airbus',
+   model : 'A330',
+   range : 11750,
+   capacity : {business: 40, economy: 400},
+   lengthOfService_months : 120,
+   remaininglengthOfService_months : 240,
+   status : 'working'
+},
+{
+   plane_id : 'b787d1',
+   brand : 'Boeing',
+   model : '787 Dreamliner',
+   range : 13530,
+   capacity : {business: 28, economy: 220},
+   lengthOfService_months : 90,
+   remaininglengthOfService_months : 270,
+   status : 'working'
+},
+{
+   plane_id : 'b787d2',
+   brand : 'Boeing',
+   model : '787 Dreamliner',
+   range : 13530,
+   capacity : {business: 28, economy: 220},
+   lengthOfService_months : 42,
+   remaininglengthOfService_months : 318,
+   status : 'working'
+},
+{
+   plane_id : 'b787d3',
+   brand : 'Boeing',
+   model : '787 Dreamliner',
+   range : 13530,
+   capacity : {business: 28, economy: 220},
+   lengthOfService_months : 10,
+   remaininglengthOfService_months : 350,
+   status : 'working'
+}
+
+])
+
+
+
+

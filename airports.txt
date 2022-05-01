@@ -1,0 +1,183 @@
+
+**********************Airports Validation*******************
+db.createCollection( "airports", {
+   validator: { $jsonSchema: {
+      bsonType: "object",
+      required: [ "airport_id", "name", "location", "refuelCost_GBP", "costOfUsePerHour_GBP"],
+      properties: {
+         airport_id: {
+            bsonType: "string",
+            description: "A unique airport code, must be string"
+         },
+         name: {
+            bsonType: "string",
+            description: "Airport's name, must be string"
+         },
+         location: {
+         bsonType:"object",
+         required: ["country", "city"],
+         properties:
+         {
+            country: {bsonType: "string", description: "Country must be a string and is required"},
+            city:  {bsonType: "string", description: "City must be a string and is required"},
+
+        }},
+         refuelCost_GBP: {bsonType: "double", description: "RefuelCost must be a string and is required"}
+         
+      }
+   } },
+   validationLevel: "strict",
+   validationAction: "error"
+} )
+
+
+
+
+*********************Unique Index*********************
+db.airports.createIndex( { "airport_id": 1 }, { unique: true } )
+
+
+
+
+
+*********************Airports Insert*********************
+db.airports.insertMany ([
+{
+        airport_id: "MAN",
+        name: "Manchester Airport",
+        location: {
+            country: "United Kingdom",
+            city: "Manchester"
+        },
+        refuelCost_GBP: 26564.01,
+        costOfUsePerHour_GBP: 0.0
+    },
+    {
+        airport_id: "LGW",
+        name: "Gatwick Airport",
+        location: {
+            country: "United Kingdom",
+            city: "Gatwick"
+        },
+        refuelCost_GBP: 25864.35,
+        costOfUsePerHour_GBP: 0.0
+    },
+		{
+        airport_id: "LHR",
+        name: "Heathrow Airport",
+        location: {
+            country: "United Kingdom",
+            city: "London"
+        },
+        refuelCost_GBP: 24514.07,
+        costOfUsePerHour_GBP: 0.0
+    },{
+        airport_id: "CDG",
+        name: "Paris Charles de Gaulle Airport",
+        location: {
+            country: "France",
+            city: "Paris"
+        },
+        refuelCost_GBP: 26851.07,
+        costOfUsePerHour_GBP: 80.6
+    },
+    
+    {
+        airport_id: "JFK",
+        name: "John F. Kennedy International Airport",
+        location: {
+            country: "United States",
+            city: "New York"
+        },
+        refuelCost_GBP: 25854.21,
+        costOfUsePerHour_GBP: 80.6
+    },
+    
+    {
+        airport_id: "KUL",
+        name: "Kuala Lumpur International Airport",
+        location: {
+            country: "Malaysia",
+            city: "Kuala Lumpur"
+        },
+        refuelCost_GBP: 24594.5,
+        costOfUsePerHour_GBP: 99.3
+    },
+    
+    {
+        airport_id: "SCQ",
+        name: "Santiago–Rosalía de Castro Airport",
+        location: {
+            country: "Spain",
+            city: "Santiago de Compostela"
+        },
+        refuelCost_GBP: 26154.41,
+        costOfUsePerHour_GBP: 68.9
+    },
+    
+    {
+        airport_id: "EZE",
+        name: "Ministro Pistarini International Airport",
+        location: {
+            country: "Argentina",
+            city: "Ezeiza"
+        },
+        refuelCost_GBP: 24591.81,
+        costOfUsePerHour_GBP: 76.5
+    },
+    
+    {
+        airport_id: "BLR",
+        name: "Bangalore International Airport",
+        location: {
+            country: "India",
+            city: "Bangalore"
+        },
+        refuelCost_GBP: 25491.55,
+        costOfUsePerHour_GBP: 69.7
+    },
+    
+    {
+        airport_id: "CAI",
+        name: "Cairo International Airport",
+        location: {
+            country: "Egypt",
+            city: "Cairo"
+        },
+        refuelCost_GBP: 25613.4,
+        costOfUsePerHour_GBP: 60.1
+    },
+    
+    {
+        airport_id: "CPT",
+        name: "Cape Town International Airport",
+        location: {
+            country: "South Africa",
+            city: "Cape Town"
+        },
+        refuelCost_GBP: 26851.4,
+        costOfUsePerHour_GBP: 90.6
+    },
+    
+    {
+        airport_id: "JNB",
+        name: "O.R Tambo International Airport",
+        location: {
+            country: "South Africa",
+            city: "Johannesburg"
+        },
+        refuelCost_GBP: 24931.4,
+        costOfUsePerHour_GBP: 46.7
+    },
+    
+    {
+        airport_id: "LAX",
+        name: "Los Angeles International Airport",
+        location: {
+            country: "United States",
+            city: "Los Angeles"
+        },
+        refuelCost_GBP: 24692.4,
+        costOfUsePerHour_GBP: 80.6
+    },
+])

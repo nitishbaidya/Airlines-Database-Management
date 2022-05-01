@@ -1,0 +1,268 @@
+=======Flights==========
+
+
+*****Schema Vaidation*****
+
+db.createCollection("flights", {
+   validator: {
+      $jsonSchema: {
+         bsonType: "object",
+         required: [ "flight_id","plane_id","pilot_id","route","cabin_crew","timings","distance_km","duration_hrs","price_gbp"],
+         properties: {
+         flight_id: {
+            bsonType:"string",
+            description: "Flight id cannot be empty, must be a string, and unique"
+         },
+         plane_id: {
+            bsonType:"string",
+            description: "Plane id cannot be empty, must be a string"
+         },
+         pilot_id: {
+            bsonType:"object",
+            required: [ "pilot_id","copilot_id"],
+            properties: {
+              pilot_id: {
+                 bsonType:"string",
+                 description: "Pilot ID cannot be empty, must be a string"
+                 },
+              copilot_id: {
+                 bsonType:"string",
+                 description: "Co-Pilot ID cannot be empty, must be a string"
+                 },
+              },
+         },
+         route: {
+            bsonType:"object",
+            required: [ "start_airport_id","destination_airport_id"],
+            properties: {
+              start_airport_id: {
+                 bsonType:"string",
+                 description: "Starting Airport ID cannot be empty, must be a string"
+                 },
+              destination_airport_id: {
+                 bsonType:"string",
+                 description: "Destination Airport ID cannot be empty, must be a string"
+                 },
+              },
+         },
+         cabin_crew: {
+            bsonType:"array", items: {bsonType: "string"},
+            description: "There must be atleast one cabin crew"
+            },
+         timings: {
+            bsonType:"object",
+            required: [ "start_date_time","landing_date_time"],
+            properties: {
+              start_date_time: {
+                 bsonType:"date",
+                 description: "Starting time cannot be empty and must be ISO format"
+                 },
+              landing_date_time: {
+                 bsonType:"date",
+                 description: "Landing time cannot be empty and must be ISO format"
+                 },
+              },
+         },
+         distance_km: {
+            bsonType:"int",
+            description: "Distance cannot be empty, must be an integer, in kms"
+         },
+         duration_hrs: {
+            bsonType:"double",
+            description: "Duration cannot be empty, must be an double, in hrs"
+         },
+         price_gbp: {
+            bsonType:"object",
+            required: ["economy"],
+            properties: {
+              business: {
+                 bsonType:"int",
+                 minimum: 1,
+                 description: "Value must be greater than 0"
+                 },
+              economy: {
+                 bsonType:"int",
+                 minimum: 1,
+                 description: "Economy cannot be empty and value must be greater than 0"
+                 }
+              }
+         }
+     }
+   }
+}
+})
+
+
+
+
+
+
+*****Unique indexes*****
+
+db.flights.createIndex( { "flight_id": 1 }, { unique: true } )
+
+
+
+
+*****Documents*****
+
+db.flights.insertMany ([
+{
+   flight_id: 'air45_a2',
+   plane_id : 'a3802',
+   pilot_id: {pilot_id: 'p4921', copilot_id: 'p8854'},
+   route: {start_airport_id: 'LHR', destination_airport_id:'CDG'},
+   cabin_crew: ['em203', 'em242', 'em273', 'em256', 're356'],
+   timings: {start_date_time: ISODate("2021-11-25T07:15"), landing_date_time: ISODate("2021-11-25T08:30")},
+   distance_km : 348,
+   duration_hrs : 1.15,
+   price_gbp: {business:242, economy:71},
+},
+{
+   flight_id: 'air45_b1',
+   plane_id : 'b737M71',
+   pilot_id: {pilot_id: 'p7951', copilot_id: 'p6973'},
+   route: {start_airport_id: 'LHR', destination_airport_id:'MAN'},
+   cabin_crew: ['ls45t', 'me678'],
+   timings: {start_date_time: ISODate("2021-11-29T07:45"), landing_date_time: ISODate("2021-11-29T08:45")},
+   distance_km : 243,
+   duration_hrs : 1.05,
+   price_gbp: {business:437, economy:181},
+},
+{
+   flight_id: 'air45_b2',
+   plane_id : 'b737M72',
+   pilot_id: {pilot_id: 'p7951', copilot_id: 'p6973'},
+   route: {start_airport_id: 'LHR', destination_airport_id:'SCQ'},
+   cabin_crew: ['ls45t', 'me678'],
+   timings: {start_date_time: ISODate("2021-12-02T11:25"), landing_date_time: ISODate("2021-12-02T17:00")},
+   distance_km : 1739,
+   duration_hrs : 5.35,
+   price_gbp: {business:554, economy:144},
+},
+{
+   flight_id: 'air45_a31',
+   plane_id : 'a3301',
+   pilot_id: {pilot_id: 'p6938', copilot_id: 'p5981'},
+   route: {start_airport_id: 'MAN', destination_airport_id:'EZE'},
+   cabin_crew: ['st987', 'em564', 'bg564', 'ty975'],
+   timings: {start_date_time: ISODate("2021-12-01T11:25"), landing_date_time: ISODate("2021-12-02T05:15")},
+   distance_km : 11173,
+   duration_hrs : 17.50,
+   price_gbp: {business:2987, economy:702},
+},
+{
+   flight_id: 'air45_ab71',
+   plane_id : 'b787d1',
+   pilot_id: {pilot_id: 'p1984', copilot_id: 'p4859'},
+   route: {start_airport_id: 'LHR', destination_airport_id:'JFK'},
+   cabin_crew: ['lk815', 'iu871', 'sc354'],
+   timings: {start_date_time: ISODate("2021-12-02T09:15"), landing_date_time: ISODate("2021-12-02T18:05")},
+   distance_km : 5534,
+   duration_hrs : 8.50,
+   price_gbp: {business:2210, economy:426},
+},
+{
+   flight_id: 'air45_ab72',
+   plane_id : 'b787d2',
+   pilot_id: {pilot_id: 'p1984', copilot_id: 'p4859'},
+   route: {start_airport_id: 'LHR', destination_airport_id:'KUL'},
+   cabin_crew: ['lk815', 'iu871', 'sc354'],
+   timings: {start_date_time: ISODate("2021-12-05T07:15"), landing_date_time: ISODate("2021-12-05T22:20")},
+   distance_km : 10611,
+   duration_hrs : 15.50,
+   price_gbp: {business:1967, economy:443},
+},
+{
+   flight_id: 'air45_ab73',
+   plane_id : 'b787d3',
+   pilot_id: {pilot_id: 'p8719', copilot_id: 'p5514'},
+   route: {start_airport_id: 'LGW', destination_airport_id:'BLR'},
+   cabin_crew: ['ab486', 'al127', 'jd645'],
+   timings: {start_date_time: ISODate("2021-12-01T11:25"), landing_date_time: ISODate("2021-12-02T01:10")},
+   distance_km : 8033,
+   duration_hrs : 13.45,
+   price_gbp: {business:2004, economy:697},
+},
+{
+   flight_id: 'air45_a2d',
+   plane_id : 'a3802',
+   pilot_id: {pilot_id: 'p4921', copilot_id: 'p8854'},
+   route: {start_airport_id: 'CDG', destination_airport_id:'LHR'},
+   cabin_crew: ['em203', 'em242', 'em273', 'em256', 're356'],
+   timings: {start_date_time: ISODate("2021-11-26T14:15"), landing_date_time: ISODate("2021-11-26T15:30")},
+   distance_km : 348,
+   duration_hrs : 1.15,
+   price_gbp: {business:246, economy:87},
+},
+{
+   flight_id: 'air45_b1d',
+   plane_id : 'b737M71',
+   pilot_id: {pilot_id: 'p7951', copilot_id: 'p6973'},
+   route: {start_airport_id: 'MAN', destination_airport_id:'LHR'},
+   cabin_crew: ['ls45t', 'me678'],
+   timings: {start_date_time: ISODate("2021-11-29T17:30"), landing_date_time: ISODate("2021-11-29T18:30")},
+   distance_km : 243,
+   duration_hrs : 1.05,
+   price_gbp: {business:421, economy:165},
+},
+{
+   flight_id: 'air45_b2d',
+   plane_id : 'b737M72',
+   pilot_id: {pilot_id: 'p7951', copilot_id: 'p6973'},
+   route: {start_airport_id: 'SCQ', destination_airport_id:'LHR'},
+   cabin_crew: ['ls45t', 'me678'],
+   timings: {start_date_time: ISODate("2021-12-03T06:25"), landing_date_time: ISODate("2021-12-03T12:00")},
+   distance_km : 1739,
+   duration_hrs : 5.35,
+   price_gbp: {business:560, economy:134},
+},
+{
+   flight_id: 'air45_a31d',
+   plane_id : 'a3301',
+   pilot_id: {pilot_id: 'p6938', copilot_id: 'p5981'},
+   route: {start_airport_id: 'EZE', destination_airport_id:'MAN'},
+   cabin_crew: ['st987', 'em564', 'bg564', 'ty975'],
+   timings: {start_date_time: ISODate("2021-12-03T13:25"), landing_date_time: ISODate("2021-12-04T07:15")},
+   distance_km : 11173,
+   duration_hrs : 17.50,
+   price_gbp: {business:3023, economy:781},
+},
+{
+   flight_id: 'air45_ab71d',
+   plane_id : 'b787d1',
+   pilot_id: {pilot_id: 'p1984', copilot_id: 'p4859'},
+   route: {start_airport_id: 'JFK', destination_airport_id:'LHR'},
+   cabin_crew: ['lk815', 'iu871', 'sc354'],
+   timings: {start_date_time: ISODate("2021-12-03T22:30"), landing_date_time: ISODate("2021-12-04T07:20")},
+   distance_km : 5534,
+   duration_hrs : 8.50,
+   price_gbp: {business:2145, economy:398},
+},
+{
+   flight_id: 'air45_ab72d',
+   plane_id : 'b787d2',
+   pilot_id: {pilot_id: 'p1984', copilot_id: 'p4859'},
+   route: {start_airport_id: 'KUL', destination_airport_id:'LHR'},
+   cabin_crew: ['lk815', 'iu871', 'sc354'],
+   timings: {start_date_time: ISODate("2021-12-07T06:15"), landing_date_time: ISODate("2021-12-07T21:20")},
+   distance_km : 10611,
+   duration_hrs : 15.50,
+   price_gbp: {business:2011, economy:478},
+},
+{
+   flight_id: 'air45_ab73d',
+   plane_id : 'b787d3',
+   pilot_id: {pilot_id: 'p8719', copilot_id: 'p5514'},
+   route: {start_airport_id: 'BLR', destination_airport_id:'LGW'},
+   cabin_crew: ['ab486', 'al127', 'jd645'],
+   timings: {start_date_time: ISODate("2021-12-03T17:25"), landing_date_time: ISODate("2021-12-04T07:10")},
+   distance_km : 8033,
+   duration_hrs : 13.45,
+   price_gbp: {business:2112, economy:786},
+}
+])
+
+
+
+

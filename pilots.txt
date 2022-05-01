@@ -1,0 +1,239 @@
+
+**********************Pilots Validation*******************
+db.createCollection("pilots", {
+   validator: { $jsonSchema: {
+      bsonType: "object",
+      required: [ "pilot_id", "fullName", "address", "contactDetails", "contract", "lastFitToFlyTest"],
+      properties: {
+         pilot_id: {
+            bsonType: "string",
+            description: "A unique pilot ID, must be string"
+         },
+         fullName: {
+            bsonType: "string",
+            description: "Pilot's full name, must be string"
+         },
+         address: {
+         bsonType:"object",
+         required: ["street", "zip", "city", "region"],
+         properties:
+         {
+            street: {bsonType: "string", description: "Street must be a string and is required"},
+            zip: {bsonType: "string", description: "Zip must be a string and is required"},
+            city:  {bsonType: "string", description: "City must be a string and is required"},
+            region:  {bsonType: "string", description: "State must be a string and is required"}
+        }},
+         contactDetails: {
+         bsonType:"object",
+         required: ["email", "phoneNumber", "emergencyNumber"],
+         properties:
+         {
+            email: {bsonType: "string", description: "Email must be a string and is required"},
+            phoneNumber: {bsonType: "string", description: "PhoneNumber must be a string and is required"},
+            emergencyNumber: {bsonType: "string", description: "EmergencyNumber must be a string and is required"}
+        }},
+         contract: {
+         bsonType:"object",
+         required: ["startDate", "endDate", "salary"],
+         properties:
+         {
+            startDate: {bsonType: "date", description: "StartDate must be a date and is required"},
+            endDate: {bsonType: "date", description: "EndDate must be an date and is required"},
+            salary: {bsonType: "double", description: "Salary must be a double and is required"}
+        }},
+         
+      }
+   } },
+   validationLevel: "strict",
+   validationAction: "error"
+} )
+
+
+
+
+
+
+*********************Pilots Index*********************
+db.pilots.createIndex( { "pilot_id": 1 }, { unique: true } )
+
+
+
+
+
+
+
+*********************Pilots Insert*********************
+
+db.pilots.insertMany ([
+    {
+        pilot_id: "p4921",
+        fullName: "Alexander Avery",
+        address: {street: "Main Rd", zip: "SY5 7JD", city: "Shrewsbury", region: "Shropshire"
+        },
+        contactDetails: {
+            email: "a_avery@gmail.com",
+            phoneNumber: "+44 5789 649816", emergencyNumber: "+44 4392 467819"
+        },
+        contract: {
+            startDate: ISODate("2018-04-17"), endDate: ISODate("2023-06-18"), salary: 7564.5
+        },
+        employmentRecord: [
+         {startDate: ISODate("2014-02-25"), endDate: ISODate("2018-02-26"), salary: 6492.2},
+         {startDate: ISODate("2012-02-23"), endDate: ISODate("2014-02-24"), salary: 5270.8}
+        ],
+        lastFitToFlyTest: ISODate("2021-07-14")
+    },
+    {
+        pilot_id: "p7951",
+        fullName: "Edward Campbell",
+        address: {street: "Wash Farm", zip: "TQ11 0JU", city: "Buckfastleigh", region: "Devon"
+        },
+        contactDetails: {
+            email: "e_campbell758@gmail.com",
+            phoneNumber: "+44 4619 784915", emergencyNumber: "+44 4659 157943"
+        },
+        contract: {
+            startDate: ISODate("2017-08-01"), endDate: ISODate("2022-07-01"), salary: 6496.4
+        },
+        employmentRecord: [
+         {startDate: ISODate("2015-09-01"), endDate: ISODate("2017-07-31"), salary: 4596.3}
+        ],
+        lastFitToFlyTest: ISODate("2021-12-15")
+    },
+    {
+        pilot_id: "p8854",
+        fullName: "Nicholas Lyman",
+        address: {street: "51 Upper Berkeley St", zip: "W1H 7QW", city: "	Marylebone", region: "London"
+        },
+        contactDetails: {
+            email: "nicholas_ly76@gmail.com",
+            phoneNumber: "+44 6794 124896", emergencyNumber: "+44 5921 689134"
+        },
+        contract: {
+            startDate: ISODate("2016-01-13"), endDate: ISODate("2022-04-13"), salary: 7184.8
+        },
+        employmentRecord: [
+         {startDate: ISODate("2012-06-12"), endDate: ISODate("2016-01-12"), salary: 5492.2},
+         {startDate: ISODate("2011-04-11"), endDate: ISODate("2012-06-11"), salary: 4589.7},
+         {startDate: ISODate("2010-10-10"), endDate: ISODate("2011-04-10"), salary: 4995.6}
+        ],
+        lastFitToFlyTest: ISODate("2021-06-30")
+    },
+    {
+        pilot_id: "p6973",
+        fullName: "Thomas Johnston",
+        address: {street: "Tabernacle St", zip: "	TR1 2EJ", city: "Truro", region: "Cornwall"
+        },
+        contactDetails: {
+            email: "th_Joh791@gmail.com",
+            phoneNumber: "+44 9781 269187", emergencyNumber: "+44 3581 367815"
+        },
+        contract: {
+            startDate: ISODate("2019-08-14"), endDate: ISODate("2025-11-14"), salary: 7329.4
+        },
+        employmentRecord: [],
+        lastFitToFlyTest: ISODate("2021-07-07")
+    },
+    {
+        pilot_id: "p8719",
+        fullName: "Victor Knox",
+        address: {street: "75 Belfast Rd", zip: "BT38 8BX", city: "Carrickfergus", region: "Antrim"
+        },
+        contactDetails: {
+            email: "victor276_ox@gmail.com",
+            phoneNumber: "+44 2849 365871", emergencyNumber: "+44 6584 128459"
+        },
+        contract: {
+            startDate: ISODate("2020-04-17"), endDate: ISODate("2023-12-17"), salary: 5489.8
+        },
+        employmentRecord: [
+         {startDate: ISODate("2017-02-16"), endDate: ISODate("2020-04-16"), salary: 5018.5},
+         {startDate: ISODate("2015-01-15"), endDate: ISODate("2017-02-15"), salary: 4682.2},
+         {startDate: ISODate("2013-12-14"), endDate: ISODate("2015-01-14"), salary: 4156.8}
+        ],
+        lastFitToFlyTest: ISODate("2021-12-05")
+    },
+    {
+        pilot_id: "p5514",
+        fullName: "Owen Ferguson",
+        address: {street: "179 High St", zip: "SS1 1LL", city: "SOUTHEND ON SEA", region: "Essex"
+        },
+        contactDetails: {
+            email: "ferg_ow87@gmail.com",
+            phoneNumber: "+44 3598 155266", emergencyNumber: "+44 1584 111458"
+        },
+        contract: {
+            startDate: ISODate("2019-07-17"), endDate: ISODate("2022-12-17"), salary: 4158.6
+        },
+        employmentRecord: [],
+        lastFitToFlyTest: ISODate("2021-11-10")
+    },
+    {
+        pilot_id: "p6938",
+        fullName: "Joseph Smith",
+        address: {street: "42 Heatherburn Ct", zip: "DL5 4UZ", city: "Newton Aycliffe", region: "County Durham"
+        },
+        contactDetails: {
+            email: "jo76_smith@gmail.com",
+            phoneNumber: "+44 8966 485571", emergencyNumber: "+44 6662 445932"
+        },
+        contract: {
+            startDate: ISODate("2017-06-31"), endDate: ISODate("2021-12-31"), salary: 6894.6
+        },
+        employmentRecord: [
+         {startDate: ISODate("2015-02-30"), endDate: ISODate("2017-06-30"), salary: 6289.4},
+         {startDate: ISODate("2013-10-29"), endDate: ISODate("2015-02-29"), salary: 5471.6}
+        ],
+        lastFitToFlyTest: ISODate("2021-10-28")
+    },
+    {
+        pilot_id: "p5981",
+        fullName: "David Simpson",
+        address: {street: "Woodhouse Rd", zip: "N12 9EY", city: "Finchley", region: "London"
+        },
+        contactDetails: {
+            email: "d_simpson43@gmail.com",
+            phoneNumber: "+44 9544 165448", emergencyNumber: "+44 6611 449862"
+        },
+        contract: {
+            startDate: ISODate("2017-09-13"), endDate: ISODate("2023-02-19"), salary: 7482.5
+        },
+        employmentRecord: [
+         {startDate: ISODate("2014-04-13"), endDate: ISODate("2017-09-13"), salary: 6492.2}
+        ],
+        lastFitToFlyTest: ISODate("2021-09-01")
+    },
+    {
+        pilot_id: "p1984",
+        fullName: "Michael Turner",
+        address: {street: "105 London Rd", zip: "CM21 9JJ", city: "Sawbridgeworth", region: "Hertfordshire"
+        },
+        contactDetails: {
+            email: "michael_t763@gmail.com",
+            phoneNumber: "+44 1644 458485", emergencyNumber: "+44 6225 455114"
+        },
+        contract: {
+            startDate: ISODate("2020-06-17"), endDate: ISODate("2021-06-17"), salary: 4128.9
+        },
+        employmentRecord: [],
+        lastFitToFlyTest: ISODate("2021-06-10")
+    },
+    {
+        pilot_id: "p4859",
+        fullName: "Leonard Ward",
+        address: {street: "404 Kenton Ln", zip: "HA3 8RQ", city: "Harrow", region: "Greater London"
+        },
+        contactDetails: {
+            email: "leo_ward48@gmail.com",
+            phoneNumber: "+44 8996 265114", emergencyNumber: "+44 4855 144855"
+        },
+        contract: {
+            startDate: ISODate("2019-06-27"), endDate: ISODate("2022-07-27"), salary: 5254.6
+        },
+        employmentRecord: [
+         {startDate: ISODate("2017-02-26"), endDate: ISODate("2019-06-26"), salary: 4956.8},
+         {startDate: ISODate("2016-01-25"), endDate: ISODate("2017-02-25"), salary: 4581.9}
+        ],
+        lastFitToFlyTest: ISODate("2021-09-23")
+    }
+])

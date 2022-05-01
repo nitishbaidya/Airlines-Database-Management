@@ -1,0 +1,320 @@
+=======Employees==========
+
+
+*****Schema Validation*****
+
+db.createCollection("employees", {
+validator: {
+$jsonSchema: {
+bsonType: "object",
+required: [ "employee_id","name","address","contact_details","contract"],
+properties: {
+employee_id: {
+bsonType:"string",
+description: "Employee id cannot be empty"
+},
+name: {
+bsonType:"object",
+required: ["firstname", "lastname"],
+properties: {
+firstname: {
+bsonType:"string",
+description: "Firstname cannot be empty and must be a string"
+},
+lastname: {
+bsonType:"string",
+description: "Lastname cannot be empty and must be a string"
+},
+},
+},
+address: {
+bsonType:"object",
+required: ["street", "region", "pincode"],
+properties: {
+address: {
+bsonType:"string",
+description: "Address cannot be empty and must be a string"
+},
+region: {
+bsonType:"string",
+description: "region cannot be empty and must be a string"
+},
+pincode: {
+bsonType:"string",
+description: "Pincode cannot be empty and must be a string"
+},
+},
+},
+contact_details: {
+bsonType:"object",
+required: ["email", "number", "emergency_number"],
+properties: {
+email: {
+bsonType:"string",
+description: "Email cannot be empty and must be a string"
+},
+number: {
+bsonType:"string",
+description: "Contact Number cannot be empty and must be integers"
+},
+emergency_number: {
+bsonType:"string",
+description: "Emergency Number cannot be empty and must be integers"
+},
+},
+},
+contract: {
+bsonType:"object",
+required: ["start_date", "end_date", "position", "salary"],
+properties: {
+start_date: {
+bsonType:"date",
+description: "Contract start date cannot be empty and must be a valid date"
+},
+end_date: {
+bsonType:"date",
+description: "Contract end date cannot be empty and must be a valid date"
+},
+position: {
+bsonType:"string",
+description: "Position cannot be empty and must be a string"
+},
+salary: {
+bsonType:"int",
+description: "Salary cannot be empty and must be integers"
+},
+},
+},
+}
+}
+}
+})
+
+
+
+
+
+*****Unique indexes*****
+
+db.employees.createIndex( { "employee_id": 1 }, { unique: true } )
+
+
+
+
+*****Documents*****
+
+
+db.employees.insertMany ([
+
+
+{
+   employee_id : 'em203',
+   name : {firstname: 'Rohan', lastname: 'Nair'},
+   address : {street: 'St. George Gardens, Athens avenue, Liverpool', region: 'Liverpool', pincode:'EM22RY' },
+   contact_details : {email: 'rohann221@gmail.com', number: '+44 8276565654', emergency_number: '+42 8276565654'},
+   contract : {start_date: ISODate("2015-07-14"), end_date: ISODate("2025-07-15"), position: 'steward', salary: 13000},
+},
+{
+   employee_id : 'em242',
+   name : {firstname: 'Robert', lastname: 'Brown'},
+   address : {street: 'Bawdsmay building, Athens avenue, Oxford Street', region: 'Oxford Street', pincode:'GL72FY' },
+   contact_details : {email: 'robertbr@gmail.com', number: '+91 6576556633', emergency_number: '+91 6576556633'},
+   contract : {start_date: ISODate("2013-05-14"), end_date: ISODate("2023-05-15"), position: 'steward', salary: 13000},
+},
+{
+   employee_id : 'em273',
+   name : {firstname: 'Alex', lastname: 'Parker'},
+   address : {street: 'Clark towers, Ramsey avenue, Citadel', region: 'Citadel', pincode:'PM64RT' },
+   contact_details : {email: 'alexpa21@gmail.com', number: '+86 6756557733', emergency_number: '+86 6756557733'},
+   contract : {start_date: ISODate("2013-02-14"), end_date: ISODate("2023-02-15"), position: 'steward', salary: 13000},
+},
+{
+   employee_id : 'em256',
+   name : {firstname: 'Lauren', lastname: 'Colins'},
+   address : {street: 'Clark towers, Ramsey avenue, Citadel', region: 'Citadel', pincode:'PM64RT' },
+   contact_details : {email: 'laurencoli@gmail.com', number: '+21 6767554411', emergency_number: '+21 6767554411'},
+   contract : {start_date: ISODate("2019-07-14"), end_date: ISODate("2029-07-15"), position: 'Air-hostess', salary: 11000},
+},
+{
+   employee_id : 're356',
+   name : {firstname: 'Lucas', lastname: 'Gordon'},
+   address : {street: 'St. James Gardens, Chadwell Heath, Romford', region: 'Romford', pincode:'RM65RY' },
+   contact_details : {email: 'lucasg@gmail.com', number: '+44 8787990054', emergency_number: '+44 8787990054'},
+   contract : {start_date: ISODate("2013-02-14"), end_date: ISODate("2023-02-15"), position: 'steward', salary: 13000},
+},
+{
+   employee_id : 'ls45t',
+   name : {firstname: 'Eva', lastname: 'Tyler'},
+   address : {street: '12-a, Eagle Apartments, Ramsey avenue, Bond Street', region: 'Bond Street', pincode:'RG56RY' },
+   contact_details : {email: 'evatyler12@gmail.com', number: '+25 7643998844', emergency_number: '+25 7643998844'},
+   contract : {start_date: ISODate("2012-11-14"), end_date: ISODate("2022-11-15"), position: 'Air-hostess', salary: 15000},
+},
+{
+   employee_id : 'me678',
+   name : {firstname: 'Calvin', lastname: 'Reed'},
+   address : {street: 'St. Mary Gardens, Bawdsway avenue, Manchester', region: 'Manchester', pincode:'YT44RT' },
+   contact_details : {email: 'calvinrd@gmail.com', number: '+91 7766909887', emergency_number: '+91 7766909887'},
+   contract : {start_date: ISODate("2019-05-14"), end_date: ISODate("2029-05-15"), position: 'steward', salary: 11000},
+},
+{
+   employee_id : 'ty975',
+   name : {firstname: 'Adam', lastname: 'Grey'},
+   address : {street: '7-a, Charles Apartments, Road-man road, Bond Street', region: 'Bond Street', pincode:'RG67RY' },
+   contact_details : {email: 'adamgr14@gmail.com', number: '+22 7966224336', emergency_number: '+22 7966224336'},
+   contract : {start_date: ISODate("2015-07-02"), end_date: ISODate("2025-07-03"), position: 'steward', salary: 13000},
+},
+{
+   employee_id : 'st987',
+   name : {firstname: 'Emily', lastname: 'Brown'},
+   address : {street: 'St. George Gardens, Athens avenue, Liverpool', region: 'Liverpool', pincode:'EM22RY' },
+   contact_details : {email: 'emilybrown001@gmail.com', number: '+61 6565773293', emergency_number: '+61 6565773293'},
+   contract : {start_date: ISODate("2020-01-14"), end_date: ISODate("2030-01-15"), position: 'Air-hostess', salary: 10000},
+},
+{
+   employee_id : 'em564',
+   name : {firstname: 'Rachel', lastname: 'Clay'},
+   address : {street: 'St. Peters Avenue, Rotherham Junction, Liverpool', region: 'Liverpool', pincode:'EM65IY' },
+   contact_details : {email: 'rachelcl1@gmail.com', number: '+42 6767554409', emergency_number: '+42 6767554409'},
+   contract : {start_date: ISODate("2020-01-14"), end_date: ISODate("2030-01-15"), position: 'Air-hostess', salary: 10000},
+},
+{
+   employee_id : 'bg564',
+   name : {firstname: 'Jeff', lastname: 'Parker'},
+   address : {street: '15, Dorsten Square, Crawley', region: ' West Sussex', pincode:'RH11 8WB' },
+   contact_details : {email: 'jeffp45@gmail.com', number: '+44 1737773099', emergency_number: '+44 1737773099'},
+   contract : {start_date: ISODate("2020-07-20"), end_date: ISODate("2030-07-21"), position: 'Steward', salary: 10000},
+},
+{
+   employee_id : 'lk815',
+   name : {firstname: 'Natasha', lastname: 'Brown'},
+   address : {street: '20, Oxenholme, Kendal', region: 'Cumbria', pincode:'LA9 7RF' },
+   contact_details : {email: 'natb87@gmail.com', number: '+44 1539724094', emergency_number: '+44 1539724094'},
+   contract : {start_date: ISODate("2017-01-14"), end_date: ISODate("2027-01-15"), position: 'Air-hostess', salary: 13000},
+},
+{
+   employee_id : 'iu871',
+   name : {firstname: 'Roman', lastname: 'Bradwell'},
+   address : {street: '15, Oystermouth Rd, Swansea', region: 'West Glamorgan', pincode:'SA1 3ST' },
+   contact_details : {email: 'romanbrad76@yahoo.com', number: '+44 1792466500', emergency_number: '+44 1792466500'},
+   contract : {start_date: ISODate("2020-09-14"), end_date: ISODate("2030-09-15"), position: 'Steward', salary: 10500},
+},
+{
+   employee_id : 'sc354',
+   name : {firstname: 'Olivier', lastname: 'Duhamel'},
+   address : {street: '273 Avenue Daumesnil, Paris', region: 'Paris', pincode:'75012' },
+   contact_details : {email: 'olivier87@gmail.com', number: '+43 43075697', emergency_number: '+43 43075697'},
+   contract : {start_date: ISODate("2018-05-24"), end_date: ISODate("2028-05-25"), position: 'Steward', salary: 11000},
+},
+{
+   employee_id : 'ab486',
+   name : {firstname: 'Ariana Almeida', lastname: 'de Mendes'},
+   address : {street: '12, Rua da Praia, Lagos', region: 'Faro', pincode:'8600-136' },
+   contact_details : {email: 'ariana12@aol.com', number: '+351 282771200', emergency_number: '+351 282771200'},
+   contract : {start_date: ISODate("2020-11-14"), end_date: ISODate("2030-11-15"), position: 'Air-hostess', salary: 10000},
+},
+{
+   employee_id : 'al127',
+   name : {firstname: 'Harbhajan', lastname: 'Baral'},
+   address : {street: 'Vivekanada Circle, Girinagar, Bangalore', region: 'Bangalore', pincode:'560085' },
+   contact_details : {email: 'harbhajan76@gmail.com', number: '+91 5673998853', emergency_number: '+91 5673998853'},
+   contract : {start_date: ISODate("2019-11-20"), end_date: ISODate("2029-11-21"), position: 'Steward', salary: 10500},
+},
+{
+   employee_id : 'jd645',
+   name : {firstname: 'Claire', lastname: 'Raymond'},
+   address : {street: '14 Avenue, Edmond Michelet', region: 'Cholet', pincode:'49300' },
+   contact_details : {email: 'claire12ray@gmail.com', number: '+43 241654277', emergency_number: '+43 241654277'},
+   contract : {start_date: ISODate("2015-06-14"), end_date: ISODate("2025-06-15"), position: 'Air-hostess', salary: 13000},
+},
+{
+   employee_id : 'op874',
+   name : {firstname: 'Padama', lastname: 'Roy'},
+   address : {street: 'Rajnikant Jani Marg, Lalbaug, Manjalpur, Vadodara', region: 'Gujarat', pincode:'390009' },
+   contact_details : {email: 'padmaroy001@gmail.com', number: '+91 6588913256', emergency_number: '+91 6588913256'},
+   contract : {start_date: ISODate("2018-08-14"), end_date: ISODate("2028-08-15"), position: 'Air-hostess', salary: 11500},
+},
+{
+   employee_id : 'dv465',
+   name : {firstname: 'Jefferey', lastname: 'Dooley'},
+   address : {street: '1118 Lakeview Crescent, Williams Lake', region: 'British Columbia', pincode:'V2G 1A3' },
+   contact_details : {email: 'jeffreyd45@yahoo.com', number: '+1 2503923321', emergency_number: '+1 2503923321'},
+   contract : {start_date: ISODate("2020-02-19"), end_date: ISODate("2030-02-20"), position: 'Steward', salary: 10500},
+},
+{
+   employee_id : 'mn453',
+   name : {firstname: 'Jaswant', lastname: 'Palla'},
+   address : {street: 'Dhanpura, Haridwar, Uttarakhand,Padartha Urf Dhanpura', region: 'Uttarakhand', pincode:'247663' },
+   contact_details : {email: 'jaswant87@gmail.com', number: '+91 8765098789', emergency_number: '+91 8765098789'},
+   contract : {start_date: ISODate("2018-11-24"), end_date: ISODate("2028-11-25"), position: 'Steward', salary: 12000},
+},
+{
+   employee_id : 'rt889',
+   name : {firstname: 'Stephanie', lastname: 'Jackson'},
+   address : {street: '7, Gallowgate, Newcastle upon Tyne', region: 'Tyne and Wear', pincode:'NE1 4SG' },
+   contact_details : {email: 'stephanie56@gmail.com', number: '+44 1912329551', emergency_number: '+44 1912329551'},
+   contract : {start_date: ISODate("2020-01-14"), end_date: ISODate("2025-01-15"), position: 'Booking Clerk', salary: 7000},
+},
+{
+   employee_id : 'gf658',
+   name : {firstname: 'Graham', lastname: 'Taylor'},
+   address : {street: '223A Turners Hill, Cheshunt', region: 'Herts', pincode:'EN8 9DG' },
+   contact_details : {email: 'grahamt53@gmail.com', number: '+44 9926226744', emergency_number: '+44 9926226744'},
+   contract : {start_date: ISODate("2018-05-14"), end_date: ISODate("2023-05-15"), position: 'Booking Clerk', salary: 9000},
+},
+{
+   employee_id : 'fg430',
+   name : {firstname: 'Helen', lastname: 'Evans'},
+   address : {street: 'Clark towers, Ramsey avenue, Citadel', region: 'Citadel', pincode:'SA61 2NB' },
+   contact_details : {email: 'heleneva542@yahoo.com', number: '+44 5477824365', emergency_number: '+44 5477824365'},
+   contract : {start_date: ISODate("2019-10-14"), end_date: ISODate("2024-10-15"), position: 'Booking Clerk', salary: 9000},
+},
+{
+   employee_id : 'lm349',
+   name : {firstname: 'David', lastname: 'Harper'},
+   address : {street: '5, Avenue Square,Remington', region: 'Romford', pincode:'RM6 5RY' },
+   contact_details : {email: 'davidhar01@gmail.com', number: '+44 6500986713', emergency_number: '+44 6500986713'},
+   contract : {start_date: ISODate("2017-02-14"), end_date: ISODate("2022-02-15"), position: 'Booking Clerk', salary: 8000},
+},
+{
+   employee_id : 'fg108',
+   name : {firstname: 'Randy', lastname: 'Hall'},
+   address : {street: 'Milton towers, Ramsey park, Little Heath', region: 'Romford', pincode:'RM6 5RY' },
+   contact_details : {email: 'randyh12@gmail.com', number: '+44 3009263439', emergency_number: '+44 3009263439'},
+   contract : {start_date: ISODate("2018-05-14"), end_date: ISODate("2023-05-15"), position: 'Booking Clerk', salary: 8500},
+},
+{
+   employee_id : 'ar562',
+   name : {firstname: 'Joe', lastname: 'Miller'},
+   address : {street: '15G, Gordon tower , Broadway avenue, Chadwell Heath', region: 'Chadwell', pincode:'CH42RY' },
+   contact_details : {email: 'joemiller56@aol.com', number: '+44 5488978987', emergency_number: '+44 5488978987'},
+   contract : {start_date: ISODate("2019-02-24"), end_date: ISODate("2024-02-25"), position: 'Booking Clerk', salary: 7500},
+},
+{
+   employee_id : 'lm127',
+   name : {firstname: 'Jasper', lastname: 'Clyne'},
+   address : {street: '15, Ripple towers, Ramsey park, Epping', region: 'Epping', pincode:'GH5 6RY' },
+   contact_details : {email: 'jasperc98@gmail.com', number: '+44 7565018264', emergency_number: '+44 7565018264'},
+   contract : {start_date: ISODate("2016-12-14"), end_date: ISODate("2021-12-15"), position: 'Booking Clerk', salary: 8000},
+},
+{
+   employee_id : 'gh491',
+   name : {firstname: 'Connor', lastname: 'Wilson'},
+   address : {street: '210-212 George St, Aberdeen', region: 'Aberdeen City', pincode:'B25 1BS' },
+   contact_details : {email: 'Connor47@gmail.com', number: '+44 5409814085', emergency_number: '+44 5409814085'},
+   contract : {start_date: ISODate("2018-07-24"), end_date: ISODate("2023-07-25"), position: 'Booking Clerk', salary: 8500},
+},
+{
+   employee_id : 'nc453',
+   name : {firstname: 'Jodie', lastname: 'Hunt'},
+   address : {street: '1 Ardwick St, Ramsey avenue, Merseyside', region: 'Merseyside', pincode:'WA9 1LZ' },
+   contact_details : {email: 'jodie25@aol.com', number: '+44 9822735409', emergency_number: '+44 9822735409'},
+   contract : {start_date: ISODate("2019-06-16"), end_date: ISODate("2024-06-17"), position: 'Booking Clerk', salary: 8000},
+},
+{
+   employee_id : 'lk885',
+   name : {firstname: 'Mary', lastname: 'Jane'},
+   address : {street: 'Stark towers, Gordon avenue, Brook', region: 'Brook City', pincode:'TY8 7PO' },
+   contact_details : {email: 'maryj65@yahoo.com', number: '+44 6599769870', emergency_number: '+44 6599769870'},
+   contract : {start_date: ISODate("2019-09-11"), end_date: ISODate("2024-09-12"), position: 'Booking Clerk', salary: 8000},
+}
+])
